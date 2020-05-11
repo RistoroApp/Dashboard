@@ -20,6 +20,10 @@ const updatePrintings = ({ commit }, data) => {
     services = [...services, newData];
   }
 
+  services = _.orderBy(services, function(service) {
+    return new Date(service.createdAt);
+  }, 'desc')
+  console.log(services);
   commit("UPDATE_SERVICES_DATA", services);
 };
 

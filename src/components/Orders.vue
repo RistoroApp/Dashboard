@@ -2,7 +2,7 @@
   <v-data-table
     hide-default-footer
     :headers="headers"
-    :items="loading ? [] : orders"
+    :items="orders"
     :loading="loading"
     :expanded.sync="expanded"
     :single-expand="true"
@@ -21,6 +21,9 @@
     </template>
     <template v-slot:item.status="{ item }">
       <v-chip :color="getColor(item.status)">{{ getText(item.status) }}</v-chip>
+    </template>
+    <template v-slot:item.createdAt="{item}">
+      {{ formatDate(item.createdAt) }}
     </template>
   </v-data-table>
 </template>
@@ -80,6 +83,11 @@ export default {
         case "completed":
           return "Completato";
       }
+    },
+    formatDate(date) {
+      let d = new Date(date);
+      const options = { weekday: 'long', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false }
+      return d.toLocaleString('it-IT', options);
     }
   },
   created() {
