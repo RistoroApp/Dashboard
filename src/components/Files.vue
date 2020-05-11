@@ -34,7 +34,7 @@
         color="warning"
         class="mx-4"
         @click="setStatus('working')"
-        :disabled="status === 'working' || status === 'working'"
+        :disabled="status === 'working' || status === 'completed'"
         >In Lavorazione</v-btn
       >
       <v-btn
