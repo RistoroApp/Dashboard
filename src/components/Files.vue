@@ -33,13 +33,15 @@
       <v-btn
         color="warning"
         class="mx-4"
-        :disabled="status !== 'working' ? false : true"
+        @click="setStatus('working')"
+        :disabled="status === 'working' || status === 'working'"
         >In Lavorazione</v-btn
       >
       <v-btn
         color="success"
         class="mx-4"
-        :disabled="status !== 'completed' ? false : true"
+        @click="setStatus('completed')"
+        :disabled="status === 'completed'"
         >Completato</v-btn
       >
     </v-row>
@@ -64,7 +66,6 @@ export default {
       this.loading = true;
 
       for (let file of this.filesId) {
-        console.log(file);
         try {
           let data = await api.getFile(file);
           this.files.push(data);
@@ -78,7 +79,6 @@ export default {
     async download(id, name) {
       try {
         let res = await api.downloadFile(id);
-        console.log("Res" + res);
         const link = document.createElement("a");
         link.href = res;
         link.setAttribute("download", name);
@@ -87,6 +87,13 @@ export default {
       } catch (e) {
         console.log(e);
         this.error = e;
+      }
+    },
+    async setStatus(status) {
+      try {
+        await api.setStatus(this.id, status);
+      } catch (e) {
+        console.log(e);
       }
     }
   },

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import { updatePrintings } from "./actions";
+import { updatePrintings, updateServiceById } from "./actions";
 import { UPDATE_SERVICES_DATA } from "./mutations";
 
 Vue.use(Vuex);
@@ -14,7 +14,8 @@ export default new Vuex.Store({
     UPDATE_SERVICES_DATA
   },
   actions: {
-    updatePrintings
+    updatePrintings,
+    updateServiceById
   },
   modules: {}
 });

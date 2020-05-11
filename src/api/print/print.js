@@ -7,7 +7,6 @@ export default {
       api
         .get("/print/all")
         .then(res => {
-          console.log(res.data);
           store
             .dispatch("updatePrintings", res.data)
             .then(() => {
@@ -22,7 +21,6 @@ export default {
       api
         .get(`/print/file/${id}`)
         .then(res => {
-          console.log(res.data);
           resolve(res.data);
         })
         .catch(e => {
@@ -34,10 +32,28 @@ export default {
       api
         .get(`/print/download/${id}`, { responseType: "blob" })
         .then(res => {
-          console.log(res);
           let url = window.URL.createObjectURL(new Blob([res.data]));
-          console.log(url);
           resolve(url);
+        })
+        .catch(e => {
+          reject(e);
+        });
+    }),
+  setStatus: (id, status) =>
+    new Promise((resolve, reject) => {
+      api
+        .put(
+          `/print/setStatus`,
+          { id: id, status: status },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          store.dispatch("updateServiceById", res.data);
+          resolve(res.data);
         })
         .catch(e => {
           reject(e);

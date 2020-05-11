@@ -2,7 +2,7 @@
   <v-data-table
     hide-default-footer
     :headers="headers"
-    :items="orders"
+    :items="loading ? [] : orders"
     :loading="loading"
     :expanded.sync="expanded"
     :single-expand="true"
@@ -19,11 +19,9 @@
         ></Files>
       </td>
     </template>
-    <template v-slot:item.shipping="{ item }">
-      <v-icon v-if="item.shipping.ship" color="success">check_circle</v-icon>
-      <v-icon v-if="!item.shipping.ship" color="warning">cancel</v-icon>
+    <template v-slot:item.status="{ item }">
+      <v-chip :color="getColor(item.status)">{{ getText(item.status) }}</v-chip>
     </template>
-    }
   </v-data-table>
 </template>
 
@@ -44,21 +42,43 @@ export default {
         { text: "Email", value: "email" },
         { text: "N.Files", value: "nFiles" },
         { text: "Data", value: "createdAt" },
-        { text: "Spedizione", value: "shipping" },
         { text: "Stato", value: "status" },
         { text: "", value: "data-table-expand" }
-      ],
-      orders: []
+      ]
     };
+  },
+  computed: {
+    orders() {
+      return this.$store.state.services;
+    }
   },
   methods: {
     async fetch() {
       try {
         await print.getAll();
-        this.orders = this.$store.state.services;
         this.loading = false;
       } catch (e) {
         console.log(e);
+      }
+    },
+    getColor(status) {
+      switch (status) {
+        case "pending":
+          return "error";
+        case "working":
+          return "warning";
+        case "completed":
+          return "success";
+      }
+    },
+    getText(status) {
+      switch (status) {
+        case "pending":
+          return "In Attesa";
+        case "working":
+          return "In Lavorazione";
+        case "completed":
+          return "Completato";
       }
     }
   },
