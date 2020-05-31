@@ -11,7 +11,7 @@ export default {
           const user = res.data.user;
           localStorage.setItem("user-token", token);
           localStorage.setItem("user", user);
-          api.defaults.headers.authorization = token;
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           resolve(user);
         })
         .catch(err => {
