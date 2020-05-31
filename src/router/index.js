@@ -15,40 +15,43 @@ const routes = [
     component: Home,
     meta: {
       requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: "categories",
+        name: "menu-categories",
+        component: Categories,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "tags",
+        name: "menu-tags",
+        component: Tag,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "items",
+        name: "menu-items",
+        component: Items,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "allergens",
+        name: "menu-allergens",
+        component: Allergen,
+        meta: {
+          requiresAuth: true
+        }
+      }
+    ]
   },
-  {
-    path: "/categories",
-    name: "menu-categories",
-    component: Categories,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/tags",
-    name: "menu-tags",
-    component: Tag,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/items",
-    name: "menu-items",
-    component: Items,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/allergens",
-    name: "menu-allergens",
-    component: Allergen,
-    meta: {
-      requiresAuth: true
-    }
-  },
+
   {
     path: "/login",
     name: "Login",
