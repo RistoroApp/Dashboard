@@ -43,7 +43,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-item v-else :key="item.text" link>
+          <v-list-item v-else :key="item.text" link :to="{ name: item.link }">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -109,6 +109,11 @@ export default {
               link: "menu-items"
             }
           ]
+        },
+        {
+          icon: "settings",
+          text: "Impostazioni",
+          link: "settings",
         }
       ]
     };

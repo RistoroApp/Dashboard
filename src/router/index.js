@@ -5,6 +5,7 @@ import Categories from "../components/Menu/Categories";
 import Tag from "../components/Menu/Tag";
 import Allergen from "../components/Menu/Allergen";
 import Items from "../components/Menu/Items";
+import Settings from "../views/Settings";
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,14 @@ const routes = [
         path: "allergens",
         name: "menu-allergens",
         component: Allergen,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "settings",
+        name: "settings",
+        component: Settings,
         meta: {
           requiresAuth: true
         }
