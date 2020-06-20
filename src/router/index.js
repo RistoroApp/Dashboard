@@ -6,6 +6,7 @@ import Tag from "../components/Menu/Tag";
 import Allergen from "../components/Menu/Allergen";
 import Items from "../components/Menu/Items";
 import Settings from "../views/Settings";
+import Orders from "../components/Orders";
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,14 @@ const routes = [
       requiresAuth: true
     },
     children: [
+      {
+        path: "",
+        name: "orders",
+        component: Orders,
+        meta: {
+          requiresAuth: true
+        }
+      },
       {
         path: "categories",
         name: "menu-categories",

@@ -19,15 +19,21 @@
         </v-row>
         <v-container class="mx-9 mt-9">
           <v-row align="center" v-for="element in items" :key="element._id">
-            <v-col cols="4">
+            <v-col cols="3">
               <h2 class="title">{{ element.name }}</h2>
             </v-col>
-            <v-col cols="5">
-              <p class="body-2 pa-0 ma-0">{{ element.description }}</p>
+            <v-col cols="6">
+              <p class="body-2 pa-0 ma-0">
+                {{
+                  element.description.length > 150
+                    ? element.description.substring(0, 100) + "..."
+                    : element.description
+                }}
+              </p>
             </v-col>
             <v-col cols="1">
               <p class="body-2 pa-0 ma-0 font-weight-bold">
-                {{ element.price }}
+                {{ element.price.toFixed(2) }} €
               </p>
             </v-col>
             <v-col cols="2">
@@ -120,7 +126,10 @@
                           ></v-select>
                         </v-col>
                         <v-col cols="12">
-                          <v-checkbox v-model="form.freezed" label="Prodotto surgelato" />
+                          <v-checkbox
+                            v-model="form.freezed"
+                            label="Prodotto surgelato"
+                          />
                         </v-col>
                       </v-row>
                     </v-stepper-content>
@@ -190,6 +199,15 @@ export default {
       alert: false,
       form: form
     };
+  },
+  computed: {
+    cutted_description() {
+      if (this.description.length > 150) {
+        return this.description.substring(0, 150) + "...";
+      } else {
+        return this.description;
+      }
+    }
   },
   methods: {
     confirm(blob, file) {
