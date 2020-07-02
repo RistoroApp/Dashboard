@@ -48,8 +48,8 @@
                   <v-row>
                     <v-col cols="12">
                       <v-text-field
-                        label="Nome dell'tage"
-                        hint="Es: Uova"
+                        label="Nome dell'tag"
+                        hint="Es: Biologico"
                         v-model="form.name"
                         persistent-hint
                         required
@@ -58,12 +58,44 @@
                     <v-col cols="12">
                       <v-textarea
                         label="Descrizione"
-                        hint="Uova del contatino Serafino"
                         rows="2"
                         v-model="form.description"
                         no-resize
                         required
                       ></v-textarea>
+                    </v-col>
+                    <v-col>
+                      <v-select
+                        v-model="form.color"
+                        :items="colors"
+                        item-value="_id"
+                        label="Colore"
+                        return-object
+                      >
+                        <template v-slot:item="{ item }">
+                          <v-row justify="start">
+                            <v-col cols="3">
+                              <span>{{ item.id }}: </span>
+                            </v-col>
+                            <v-col cols="5">
+                              <v-chip
+                                :color="item.background"
+                                :text-color="item.text"
+                              >
+                                {{ form.name ? form.name : "Tag" }}
+                              </v-chip>
+                            </v-col>
+                          </v-row>
+                        </template>
+                        <template v-slot:selection="{ item }">
+                          <v-chip
+                            :color="item.background"
+                            :text-color="item.text"
+                          >
+                            {{ form.name ? form.name : "Tag" }}
+                          </v-chip>
+                        </template>
+                      </v-select>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -99,10 +131,13 @@
 
 <script>
 import tag from "../../api/menu/tag";
+import setting from "../../api/settings/setting";
 
 const form = {
+  id: 0,
   name: "",
-  description: ""
+  description: "",
+  color: ""
 };
 
 export default {
@@ -114,10 +149,12 @@ export default {
       dialog: false,
       update: false,
       alert: false,
+      colors: [],
       form: {
         id: 0,
         name: "",
-        description: ""
+        description: "",
+        color: ""
       }
     };
   },
@@ -125,6 +162,9 @@ export default {
     async fetch() {
       try {
         this.tags = await tag.getAll();
+        let col = await setting.getTheme();
+        this.colors = col[0].colors.tags;
+        console.log(this.colors);
         this.loading = false;
       } catch (e) {
         console.log(e);
@@ -134,7 +174,11 @@ export default {
       try {
         if (this.update) {
           await tag.updateOne(
-            { name: this.form.name, description: this.form.description },
+            {
+              name: this.form.name,
+              description: this.form.description,
+              color: this.form.color
+            },
             this.form._id
           );
           let index = this.tags.findIndex(el => el._id === this.form._id);

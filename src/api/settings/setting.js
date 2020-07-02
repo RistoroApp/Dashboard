@@ -9,6 +9,13 @@ export default {
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),
+  getTheme: () =>
+    new Promise((resolve, reject) => {
+      api
+        .get("/settings/getTheme")
+        .then(res => resolve(res.data))
+        .catch(e => reject(e));
+    }),
   addOne: setting =>
     new Promise((resolve, reject) => {
       console.log("Adding a Setting");
@@ -33,4 +40,4 @@ export default {
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     })
-}
+};

@@ -9,11 +9,11 @@ export default {
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),
-  addOne: ingredient =>
+  addOne: tag =>
     new Promise((resolve, reject) => {
       console.log("Adding an ingredient");
       api
-        .post("/menu/tag", ingredient)
+        .post("/menu/tag", tag)
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),
