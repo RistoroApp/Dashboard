@@ -3,12 +3,17 @@
     <v-row justify="center">
       <v-col cols="12">
         <v-row align="end">
-          <v-col cols="8" class="text-left">
-            <h1 class="display-3 font-weight-thin">Tag</h1>
-          </v-col>
-          <v-col cols="4">
-            <v-row justify="end" class="px-4">
-              <v-btn @click="dialog = true">Aggiungi Tag</v-btn>
+          <v-col cols="8">
+            <v-row align="center">
+              <h1 class="display-3 font-weight-thin">Tag</h1>
+              <v-btn
+                @click="dialog = true"
+                text
+                class="mt-2 ml-2"
+                color="primary"
+                small
+                ><v-icon>add_circle</v-icon>Aggiungi</v-btn
+              >
             </v-row>
           </v-col>
         </v-row>

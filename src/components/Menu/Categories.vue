@@ -2,13 +2,24 @@
   <v-container class="text-left">
     <v-row justify="center">
       <v-col cols="12">
-        <v-row align="end">
-          <v-col cols="8" class="text-left">
-            <h1 class="display-3 font-weight-thin">Categorie</h1>
+        <v-row align="center" no-gutters>
+          <v-col cols="8">
+            <v-row align="center">
+              <h1 class="display-3 font-weight-thin">Categorie</h1>
+              <v-btn
+                @click="dialog = true"
+                text
+                class="mt-2 ml-2"
+                color="primary"
+                small
+                ><v-icon>add_circle</v-icon>Aggiungi</v-btn
+              >
+            </v-row>
           </v-col>
           <v-col cols="4">
             <v-row justify="end" class="px-4">
-              <v-btn @click="dialog = true">Aggiungi Categoria</v-btn>
+              <v-btn @click="drag = false" v-if="drag">Ordina</v-btn>
+              <v-btn @click="saveOrder" color="green" dark v-else>Salva</v-btn>
             </v-row>
           </v-col>
         </v-row>
@@ -18,28 +29,34 @@
           </v-col>
         </v-row>
         <v-container class="mx-9 mt-9">
-          <v-row
-            align="center"
-            v-for="category in categories"
-            :key="category._id"
+          <draggable
+            v-model="categories"
+            @end="endOrder"
+            :options="{ disabled: drag }"
           >
-            <v-col cols="4">
-              <h2 class="title">{{ category.name }}</h2>
-            </v-col>
-            <v-col cols="6">
-              <p class="body-2 pa-0 ma-0">{{ category.description }}</p>
-            </v-col>
-            <v-col cols="2">
-              <v-row justify="space-around">
-                <v-btn icon @click="edit(category)">
-                  <v-icon color="orange lighten-2">edit</v-icon>
-                </v-btn>
-                <v-btn icon @click="del(category)">
-                  <v-icon color="red darken-2">delete</v-icon>
-                </v-btn>
-              </v-row>
-            </v-col>
-          </v-row>
+            <v-row
+              align="center"
+              v-for="category in categories"
+              :key="category._id"
+            >
+              <v-col cols="4">
+                <h2 class="title">{{ category.name }}</h2>
+              </v-col>
+              <v-col cols="6">
+                <p class="body-2 pa-0 ma-0">{{ category.description }}</p>
+              </v-col>
+              <v-col cols="2">
+                <v-row justify="space-around">
+                  <v-btn icon @click="edit(category)">
+                    <v-icon color="orange lighten-2">edit</v-icon>
+                  </v-btn>
+                  <v-btn icon @click="del(category)">
+                    <v-icon color="red darken-2">delete</v-icon>
+                  </v-btn>
+                </v-row>
+              </v-col>
+            </v-row>
+          </draggable>
         </v-container>
         <v-row justify="center">
           <v-dialog v-model="dialog" persistent max-width="600px">
@@ -62,7 +79,6 @@
                     <v-col cols="12">
                       <v-textarea
                         label="Descrizione"
-                        hint="example of helper text only on focus"
                         rows="2"
                         v-model="form.description"
                         no-resize
@@ -101,6 +117,7 @@
 
 <script>
 import category from "../../api/menu/category";
+import draggable from "vuedraggable";
 
 const form = {
   name: "",
@@ -109,6 +126,9 @@ const form = {
 
 export default {
   name: "Category",
+  components: {
+    draggable
+  },
   data() {
     return {
       expanded: [],
@@ -122,6 +142,7 @@ export default {
       dialog: false,
       update: false,
       alert: false,
+      drag: true,
       form: {
         id: 0,
         name: "",
@@ -130,9 +151,26 @@ export default {
     };
   },
   methods: {
+    endOrder(evt) {
+      this.categories[evt.newIndex].order = evt.newIndex;
+      if (evt.newIndex < evt.oldIndex) {
+        for (let i = evt.newIndex + 1; i < evt.oldIndex + 1; i++) {
+          this.categories[i].order++;
+        }
+      } else if (evt.newIndex > evt.oldIndex) {
+        for (let i = evt.oldIndex; i < evt.newIndex; i++) {
+          this.categories[i].order--;
+        }
+      }
+    },
+    saveOrder() {
+      this.drag = true;
+      category.updateOrder(this.categories);
+    },
     async fetch() {
       try {
         this.categories = await category.getAll();
+        this.categories.sort((a, b) => a.order - b.order);
         this.loading = false;
       } catch (e) {
         console.log(e);
@@ -154,7 +192,9 @@ export default {
             el => el._id !== this.form._id
           );
         } else {
-          let newCat = await category.addOne(this.form);
+          let body = { ...this.form };
+          body.order = this.categories.length;
+          let newCat = await category.addOne(body);
           this.categories.push(newCat);
         }
         this.update = false;

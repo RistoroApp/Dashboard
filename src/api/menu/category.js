@@ -25,6 +25,14 @@ export default {
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),
+  updateOrder: categories =>
+    new Promise((resolve, reject) => {
+      console.log("Updating Category");
+      api
+        .put(`/menu/category/utils/order`, categories)
+        .then(res => resolve(res.data))
+        .catch(e => reject(e));
+    }),
   deleteOne: id =>
     new Promise((resolve, reject) => {
       console.log("Deleting a Category");
