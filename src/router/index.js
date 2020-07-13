@@ -6,7 +6,11 @@ import Tag from "../components/Menu/Tag";
 import Allergen from "../components/Menu/Allergen";
 import Items from "../components/Menu/Items";
 import Settings from "../views/Settings";
+import Media from "../views/Media";
+import AddMedia from "../views/AddMedia";
 import Orders from "../components/Orders";
+import Base from "../components/Base";
+import MediaPicker from "../components/Media/MediaPicker";
 
 Vue.use(VueRouter);
 
@@ -58,6 +62,39 @@ const routes = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: "media",
+        component: Base,
+        meta: {
+          requiresAuth: true
+        },
+        children: [
+          {
+            path: "",
+            name: "media",
+            component: Media,
+            meta: {
+              requiresAuth: true
+            }
+          },
+          {
+            path: "add",
+            name: "add-media",
+            component: AddMedia,
+            meta: {
+              requiresAuth: true
+            }
+          },
+          {
+            path: "picker",
+            name: "media-picker",
+            component: MediaPicker,
+            meta: {
+              requiresAuth: true
+            }
+          }
+        ]
       },
       {
         path: "settings",

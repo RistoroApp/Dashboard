@@ -74,8 +74,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: "Home",
   data() {
@@ -111,9 +109,14 @@ export default {
           ]
         },
         {
+          icon: "perm_media",
+          text: "Media",
+          link: "media"
+        },
+        {
           icon: "settings",
           text: "Impostazioni",
-          link: "settings",
+          link: "settings"
         }
       ]
     };
