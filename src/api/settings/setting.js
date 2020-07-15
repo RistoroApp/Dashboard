@@ -24,11 +24,11 @@ export default {
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),
-  updateOne: (allergen, id) =>
+  updateAll: settings =>
     new Promise((resolve, reject) => {
-      console.log("Updating Allergen");
+      console.log("Updating Settings");
       api
-        .put(`/menu/allergen/${id}`, allergen)
+        .put(`/settings/`, settings)
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),
