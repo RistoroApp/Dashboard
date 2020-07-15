@@ -87,12 +87,17 @@ export default {
           model: false,
           children: [
             {
+              icon: "restaurant",
+              text: "Piatti/Bevande",
+              link: "menu-items"
+            },
+            {
               icon: "category",
               text: "Categorie",
               link: "menu-categories"
             },
             {
-              icon: "build",
+              icon: "label",
               text: "Tags",
               link: "menu-tags"
             },
@@ -100,11 +105,6 @@ export default {
               icon: "build",
               text: "Allergeni",
               link: "menu-allergens"
-            },
-            {
-              icon: "build",
-              text: "Elementi",
-              link: "menu-items"
             }
           ]
         },

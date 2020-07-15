@@ -4,13 +4,14 @@ import Home from "../views/Home.vue";
 import Categories from "../components/Menu/Categories";
 import Tag from "../components/Menu/Tag";
 import Allergen from "../components/Menu/Allergen";
-import Items from "../components/Menu/Items";
+import Items from "../components/Menu/Items/Items";
 import Settings from "../views/Settings";
 import Media from "../views/Media";
 import AddMedia from "../views/AddMedia";
 import Orders from "../components/Orders";
 import Base from "../components/Base";
 import MediaPicker from "../components/Media/MediaPicker";
+import AddItem from "../components/Menu/Items/AddItem";
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,22 @@ const routes = [
         path: "items",
         name: "menu-items",
         component: Items,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "add-item",
+        name: "add-item",
+        component: AddItem,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "edit-item/:id",
+        name: "edit-item",
+        component: AddItem,
         meta: {
           requiresAuth: true
         }

@@ -168,8 +168,7 @@ export default {
       try {
         this.tags = await tag.getAll();
         let col = await setting.getTheme();
-        this.colors = col[0].colors.tags;
-        console.log(this.colors);
+        this.colors = col.colors.tags;
         this.loading = false;
       } catch (e) {
         console.log(e);

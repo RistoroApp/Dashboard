@@ -9,26 +9,18 @@ export default {
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),
+  getOne: id =>
+    new Promise((resolve, reject) => {
+      api
+        .get(`/menu/item/${id}`)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err));
+    }),
   addOne: item =>
     new Promise((resolve, reject) => {
       console.log("Adding a item");
-      let formData = new FormData();
-      Object.keys(item).forEach(key => {
-        if (item[key]) {
-          formData.append(key, item[key]);
-        }
-      });
-
-      for (let value of formData.keys()) {
-        console.log(value);
-      }
       api
-        .post("/menu/item", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          },
-          timeout: 0
-        })
+        .post("/menu/item", item)
         .then(res => resolve(res.data))
         .catch(e => reject(e));
     }),

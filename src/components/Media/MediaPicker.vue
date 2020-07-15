@@ -41,14 +41,26 @@
           </v-img>
         </v-card>
       </v-col>
-      <v-col cols="12">
+      <v-col cols="3" v-if="back">
+        <v-btn
+          color="black"
+          :dark="!!selected"
+          text
+          style="width: 100%"
+          @click="$emit('back')"
+          >Indietro</v-btn
+        >
+      </v-col>
+      <v-col :cols="back ? 9 : 12">
         <v-btn
           color="green"
-          :disabled="!selected"
-          :dark="!!selected"
-          class="col-12"
+          :dark="!!selected || nullselection"
+          :disabled="!selected && !nullselection"
+          style="width: 100%"
           @click="$emit('selection', selected)"
-          >Seleziona</v-btn
+          >{{
+            nullselection && !selected ? "Nessuna Immagine" : "Seleziona"
+          }}</v-btn
         >
       </v-col>
     </v-row>
@@ -73,6 +85,18 @@ export default {
     generics: {
       type: Boolean,
       default: false
+    },
+    back: {
+      type: Boolean,
+      default: false
+    },
+    nullselection: {
+      type: Boolean,
+      default: false
+    },
+    oldselection: {
+      type: String,
+      default: ""
     }
   },
   data() {
@@ -121,6 +145,11 @@ export default {
   },
   async created() {
     await this.update();
+    if (this.oldselection) {
+      this.selected = this.oldselection;
+    }
+    console.log(this.oldselection);
+    console.log(this.selected);
   }
 };
 </script>
