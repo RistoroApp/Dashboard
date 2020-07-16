@@ -25,7 +25,7 @@
       >
         <v-card flat tile class="d-flex">
           <img
-            :src="`http://localhost:3000${item.full}`"
+            :src="getMedia(item.full)"
             class="grey lighten-2 elevation-2"
             style="width: 150px; height: 150px; object-fit: cover;"
           />
@@ -52,6 +52,9 @@ export default {
   methods: {
     addMedia() {
       this.$router.push({ name: "add-media" });
+    },
+    getMedia(url) {
+      return process.env.VUE_APP_API_URL + url;
     },
     async update() {
       try {
