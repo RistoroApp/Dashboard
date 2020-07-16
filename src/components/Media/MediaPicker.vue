@@ -34,7 +34,7 @@
           @click="select(item._id)"
         >
           <v-img
-            :src="`http://localhost:3000${item.full}`"
+            :src="getAddress(item.full)"
             aspect-ratio="1"
             class="grey lighten-2 elevation-2"
           >
@@ -116,6 +116,9 @@ export default {
       } else {
         this.selected = id;
       }
+    },
+    getAddress(item) {
+      return process.env.VUE_APP_API_URL + item;
     },
     addMedia() {
       this.uploading = true;

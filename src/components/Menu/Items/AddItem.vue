@@ -126,8 +126,8 @@ export default {
         description: "",
         category: "",
         price: "",
-        allergens: "",
-        tags: "",
+        allergens: null,
+        tags: null,
         freezed: false,
         image: null
       },
