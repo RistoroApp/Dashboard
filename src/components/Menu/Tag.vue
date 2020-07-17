@@ -137,6 +137,7 @@
 <script>
 import tag from "../../api/menu/tag";
 import setting from "../../api/settings/setting";
+import axios from "axios";
 
 const form = {
   id: 0,
@@ -167,8 +168,15 @@ export default {
     async fetch() {
       try {
         this.tags = await tag.getAll();
-        let col = await setting.getTheme();
-        this.colors = col.colors.tags;
+        let settings = await setting.getAll();
+
+        let index = settings.findIndex(el => el.name === "Tema");
+        let theme = await axios.get(
+          `${process.env.VUE_APP_BASE_API_URL}/theme/getTheme/${settings[index].value}`
+        );
+        console.log(theme);
+
+        this.colors = theme.data.colors.tags;
         this.loading = false;
       } catch (e) {
         console.log(e);
