@@ -81,6 +81,11 @@ export default {
       drawer: false,
       items: [
         {
+          icon: "home",
+          text: "Home",
+          link: "orders"
+        },
+        {
           icon: "expand_less",
           "icon-alt": "expand_more",
           text: "Menu",
