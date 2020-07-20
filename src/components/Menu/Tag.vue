@@ -143,7 +143,7 @@ const form = {
   id: 0,
   name: "",
   description: "",
-  color: ""
+  color: null
 };
 
 export default {
@@ -160,7 +160,7 @@ export default {
         id: 0,
         name: "",
         description: "",
-        color: ""
+        color: null
       }
     };
   },
@@ -200,6 +200,12 @@ export default {
           await tag.deleteOne(this.form._id);
           this.tags = this.tags.filter(el => el._id !== this.form._id);
         } else {
+          if (!this.form.color) {
+            let index = Math.floor(
+              Math.random() * Math.floor(this.colors.length)
+            );
+            this.form.color = this.colors[index];
+          }
           let newCat = await tag.addOne(this.form);
           this.tags.push(newCat);
         }
