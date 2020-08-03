@@ -146,7 +146,7 @@ export default {
       this.uploadItem = false;
     }
   },
-  async created() {
+  async mounted() {
     await this.update();
     if (this.oldselection) {
       this.selected = this.oldselection;

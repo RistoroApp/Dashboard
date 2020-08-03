@@ -1,9 +1,10 @@
 <template>
   <v-container>
     <h1 class="headline mb-5">Aggiungi Piatto - Bevanda</h1>
-    <v-row>
+    <v-row justify="center">
       <v-col>
-        <v-stepper v-model="stepper">
+        <v-progress-circular v-if="loading" indeterminate class="mx-auto"/>
+        <v-stepper v-model="stepper" v-if="!loading">
           <v-stepper-header>
             <v-stepper-step :complete="stepper > 1" step="1">
               Dati
@@ -97,7 +98,7 @@
                 items
                 back
                 nullselection
-                :oldselection="id ? form.image : ''"
+                :oldselection="form.image"
                 @back="stepper--"
                 @selection="selectImg"
               />
@@ -133,7 +134,8 @@ export default {
       },
       categories: null,
       allergens: null,
-      tags: null
+      tags: null,
+      loading: false
     };
   },
   computed: {
@@ -145,7 +147,9 @@ export default {
     }
   },
   async created() {
+    this.loading = true;
     await this.fetch();
+    this.loading = false;
   },
   methods: {
     async fetch() {
