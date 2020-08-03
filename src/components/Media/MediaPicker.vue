@@ -41,24 +41,26 @@
           </v-img>
         </v-card>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="3" v-if="back">
         <v-btn
-          color="black"
-          :dark="!!selected"
-          text
-          style="width: 100%"
-          @click="$emit('back')"
-          >Indietro</v-btn
+            color="black"
+            :dark="!!selected"
+            text
+            style="width: 100%"
+            @click="$emit('back')"
+        >Indietro</v-btn
         >
       </v-col>
       <v-col :cols="back ? 9 : 12">
         <v-btn
-          color="green"
-          :dark="!!selected || nullselection"
-          :disabled="!selected && !nullselection"
-          style="width: 100%"
-          @click="$emit('selection', selected)"
-          >{{
+            color="green"
+            :dark="!!selected || nullselection"
+            :disabled="!selected && !nullselection"
+            style="width: 100%"
+            @click="$emit('selection', selected)"
+        >{{
             nullselection && !selected ? "Nessuna Immagine" : "Seleziona"
           }}</v-btn
         >
