@@ -2,9 +2,11 @@
   <v-container>
     <h1 class="headline mb-5">Aggiungi Piatto - Bevanda</h1>
     <v-row justify="center">
-      <v-col>
-        <v-progress-circular v-if="loading" indeterminate class="mx-auto" />
-        <v-stepper v-model="stepper" v-if="!loading">
+      <v-col class="text-center" v-if="loading">
+        <v-progress-circular indeterminate class="mx-auto" />
+      </v-col>
+      <v-col v-if="!loading">
+        <v-stepper v-model="stepper">
           <v-stepper-header>
             <v-stepper-step :complete="stepper > 1" step="1">
               Dati
@@ -172,17 +174,18 @@ export default {
       if (this.stepper < 2) {
         this.stepper++;
       } else {
+        this.loading = true;
         if (this.id) {
           await item.updateOne(this.form, this.id);
         } else {
           await item.addOne(this.form);
         }
+        this.loading = false;
 
         await this.$router.push({ name: "menu-items" });
       }
     },
     selectImg(sel) {
-      console.log(sel);
       this.form.image = sel;
       this.next();
     }
