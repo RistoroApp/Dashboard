@@ -3,7 +3,7 @@
     <h1 class="headline mb-5">Aggiungi Piatto - Bevanda</h1>
     <v-row justify="center">
       <v-col>
-        <v-progress-circular v-if="loading" indeterminate class="mx-auto"/>
+        <v-progress-circular v-if="loading" indeterminate class="mx-auto" />
         <v-stepper v-model="stepper" v-if="!loading">
           <v-stepper-header>
             <v-stepper-step :complete="stepper > 1" step="1">
