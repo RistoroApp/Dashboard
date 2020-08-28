@@ -37,12 +37,11 @@
             :src="getAddress(item.full)"
             aspect-ratio="1"
             class="grey lighten-2 elevation-2"
-          >
-          </v-img>
+          />
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="!loading && !uploading">
       <v-col cols="3" v-if="back">
         <v-btn
           color="black"
@@ -137,8 +136,12 @@ export default {
         console.log("Download Generics");
         this.medias = [...this.medias, ...(await media.getAllGenerics())];
       }
-
-      this.loading = false;
+      setTimeout(
+        function() {
+          this.loading = false;
+        }.bind(this),
+        2000
+      );
     },
     async completed() {
       this.medias = [];
@@ -163,8 +166,5 @@ export default {
 .card-media {
   transition-property: border;
   transition-duration: 1s;
-}
-.selected {
-  border: 10px solid #ff6f58;
 }
 </style>

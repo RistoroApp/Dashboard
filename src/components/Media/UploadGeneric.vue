@@ -15,10 +15,10 @@
       </v-col>
       <v-col cols="12">
         <v-btn
-          color="green"
-          :disabled="!name || !image"
+          :disabled="!name || !image || loading"
           :dark="!(!name || !image)"
           class="col-12"
+          color="green"
           @click="confirm"
           >Carica</v-btn
         >
@@ -48,7 +48,9 @@ export default {
         this.$refs["name"].validate(true);
         this.$refs["image"].validate(true);
       } else {
+        this.loading = true;
         await media.addGenerics(this.image, this.name);
+        this.loading = true;
         this.$emit("completed");
       }
     }

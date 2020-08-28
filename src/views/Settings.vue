@@ -53,16 +53,15 @@
               >Cambia immagine</v-btn
             >
             <v-dialog v-model="openMedia" max-width="800">
-              <v-container style="background-color: white">
-                <MediaPicker
-                  generics
-                  v-if="setting.type === 'Image' && openMedia && currentSetting"
-                  :oldselection="
-                    currentSetting.value ? currentSetting.value : null
-                  "
-                  @selection="sel => select_file(sel, currentSetting._id)"
-                />
-              </v-container>
+              <MediaPicker
+                generics
+                v-if="setting.type === 'Image' && openMedia && currentSetting"
+                :oldselection="
+                  currentSetting.value ? currentSetting.value : null
+                "
+                @selection="sel => select_file(sel, currentSetting._id)"
+                style="background-color: white"
+              />
             </v-dialog>
           </v-col>
         </v-row>

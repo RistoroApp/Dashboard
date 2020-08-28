@@ -12,8 +12,14 @@
         <Cropper @confirm="confirm" @loading="loadingCropper" />
       </v-col>
       <v-col cols="12" v-if="image">
-        <v-btn :loading="loading" @click="send" color="green" dark width="100%"
-          >Invia</v-btn
+        <v-btn
+          :loading="loading"
+          :dark="!(!name || !image)"
+          :disabled="!name || !image || loading"
+          color="green"
+          width="100%"
+          @click="send"
+          >Carica</v-btn
         >
       </v-col>
     </v-row>
@@ -46,10 +52,13 @@ export default {
       this.urlImg = URL.createObjectURL(blob);
     },
     async send() {
-      if (!this.name) {
+      if (!this.name || !this.image) {
         this.$refs["name"].validate(true);
+        this.$refs["image"].validate(true);
       } else {
+        this.loading = true;
         await media.addItem(this.image, this.square, this.name);
+        this.loading = false;
         this.$emit("completed");
       }
     },
